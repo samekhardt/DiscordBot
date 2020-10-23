@@ -31,12 +31,10 @@ for(const file of commandFiles){
 }
 
 client.once('ready', () => {
-console.log('Spamsson Bot is online!')
 });
 
 client.on('guildMemberAdd', guildMember => {
     guildMember.roles.set(['745686987805163562']).then(console.log).catch(console.error);
-    console.log('User was given Member role!');
 })
 
 client.on('message', message =>{
