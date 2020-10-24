@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const prefix = '-';
 const fs = require('fs');
+const mudeaPrefix = '$';
 const AntiSpam = require('discord-anti-spam');
 const antiSpam = new AntiSpam({
     warnThreshold: 3, // Amount of messages sent in a row that will cause a warning.
@@ -69,9 +70,8 @@ client.on('message', message =>{
     } else {
     }
 
-    if (message.member.roles.cache.has('753059125650522214'))
+    if (message.content.startsWith(mudeaPrefix))
     {
-        console.log('Spam would have been checked, but Weebu role has been allowed spam privelages.')
     }
     else{
         antiSpam.message(message);
@@ -86,5 +86,5 @@ client.on('message', message =>{
 
 
 
-
+client.login(process.env.token)
 client.login('NzY4OTU3MzIzMzAwNDM4MDM3.X5IBUA.ih8nKgNZIDB6pzsNermVWhumH_A');
