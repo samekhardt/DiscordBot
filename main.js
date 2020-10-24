@@ -85,5 +85,5 @@ client.on('message', message =>{
 
 
 
-
+//test
 client.login(process.env.token)
