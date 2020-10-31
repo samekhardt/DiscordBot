@@ -27,7 +27,10 @@ const antiSpam = new AntiSpam({
     verbose: true, // Extended Logs from module.
     ignoredUsers: [], // Array of User IDs that get ignored.
 });
-
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("connected!");
+})
 client.commands = new Discord.Collection();
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -57,7 +60,7 @@ client.on('message', message =>{
 
     const args = message.content.slice(prefix.length).split(/ + /);
     const command = args.shift().toLowerCase();
-    const user = {username: message.member.displayName, joinDate: message.member.joinedAt}
+    const user = {ID: message.member.id, Username: message.member.displayName, JoinDate: message.member.joinedAt}
 
     if (command === 'roles'){
         client.commands.get('roles').execute(message, args);
@@ -67,15 +70,12 @@ client.on('message', message =>{
         client.commands.get('directmessage').execute(message, args);
     }
 
-    con.connect(function(err) {
-        if (err) throw err;
-        console.log("connected!");
-        con.query("INSERT INTO Users SET ?", user, (err, res) => {
-            if(err) throw err;
-            console.log('Last user inserted');
-        })
+    con.query("INSERT INTO Users SET ? ON DUPLICATE KEY UPDATE ID = ID", user, (err, res) => {
+        if(err) throw err;
+        console.log('Last user inserted');
+        console.log(message.member.id);
     })
-    con.end();
+
 });
 
 client.on('message', message =>{
