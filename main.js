@@ -36,6 +36,8 @@ client.once('ready', () => {
 
 client.on('guildMemberAdd', guildMember => {
     guildMember.roles.set(['745686987805163562']).then(console.log).catch(console.error);
+    guildMember.message.send("Thank you for joining the Game Station Discord server. You have been given the Newcomer role. Once you've been in the server for 7 days, you will be updated to the Floaters role.");
+    guildMember.message.send("The Floaters role will allow you to see more voice/text channels to interact with other members!");
 })
 
 client.on('message', message =>{
