@@ -48,6 +48,8 @@ client.on('message', message =>{
         client.commands.get('roles').execute(message, args);
     } else if(command === 'checkage'){
         client.commands.get('checkage').execute(message, args);
+    } else if(command === 'directmessage'){
+        client.commands.get('directmessage').execute(message, args);
     }
 });
 
