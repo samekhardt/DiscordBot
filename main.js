@@ -35,7 +35,7 @@ client.once('ready', () => {
 });
 
 client.on('guildMemberAdd', guildMember => {
-    guildMember.roles.set(['745686987805163562']).then(console.log).catch(console.error);
+    //guildMember.roles.set(['745686987805163562']).then(console.log).catch(console.error);
     var embed = new Discord.RichEmbed()
         .setColor('#ffffff')
         .setTitle('**Hello!**')
