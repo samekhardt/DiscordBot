@@ -32,20 +32,17 @@ for(const file of commandFiles){
 }
 
 client.once('ready', () => {
+    console.log('bot started');
+    client.user.setActivity('BOT STUFF');
 });
 
 client.on('guildMemberAdd', guildMember => {
-    //guildMember.roles.set(['745686987805163562']).then(console.log).catch(console.error);
-    var embed = new Discord.RichEmbed()
-        .setColor('#ffffff')
-        .setTitle('**Hello!**')
-        .setDescription(`Welcome to ${member.guild}.`)
-        .setFooter(member.guild.name, member.guild.iconURL);
-
-    guildMember.send(embed)
-        .catch(console.error);
-    
+    guildMember.roles.set(['745686987805163562']).then(console.log).catch(console.error);
     console.log('I have reached this part');
+    guildMember.send('Thank you for joining the Game Station server, you have been given the Newcomer Role');
+    guildMember.send('Once you have been in the server for 7 days you will receive the Floaters Role');
+    guildMember.send('The Floaters role will allow you to see more voice/text channels to interact with other members');
+ 
 })
 
 client.on('message', message =>{
