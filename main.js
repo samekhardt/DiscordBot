@@ -44,6 +44,8 @@ client.on('guildMemberAdd', guildMember => {
 
     guildMember.send(embed)
         .catch(console.error);
+    
+    console.log('I have reached this part');
 })
 
 client.on('message', message =>{
