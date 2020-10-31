@@ -36,8 +36,14 @@ client.once('ready', () => {
 
 client.on('guildMemberAdd', guildMember => {
     guildMember.roles.set(['745686987805163562']).then(console.log).catch(console.error);
-    guildMember.send("Thank you for joining the Game Station Discord server. You have been given the Newcomer role. Once you've been in the server for 7 days, you will be updated to the Floaters role.");
-    guildMember.send("The Floaters role will allow you to see more voice/text channels to interact with other members!");
+    var embed = new Discord.RichEmbed()
+        .setColor('#ffffff')
+        .setTitle('**Hello!**')
+        .setDescription(`Welcome to ${member.guild}.`)
+        .setFooter(member.guild.name, member.guild.iconURL);
+
+    guildMember.send(embed)
+        .catch(console.error);
 })
 
 client.on('message', message =>{
@@ -82,12 +88,4 @@ client.on('message', message =>{
     }
 });
 
-
-
-
-
-
-
-
-//test
 client.login(process.env.token)
