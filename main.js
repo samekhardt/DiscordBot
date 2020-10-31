@@ -2,6 +2,13 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const prefix = '-';
 const fs = require('fs');
+const mysql = require('mysql');
+var con = mysql.createConnection({
+    host: "mkorvuw3sl6cu9ms.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    database: "frdisnf4wn6jum83",
+    user: "ek0a1l8kakjo4p9y",
+    password: "v54qciosxhn3tsys"
+})
 const mudeaPrefix = '$';
 const AntiSpam = require('discord-anti-spam');
 const antiSpam = new AntiSpam({
@@ -50,6 +57,7 @@ client.on('message', message =>{
 
     const args = message.content.slice(prefix.length).split(/ + /);
     const command = args.shift().toLowerCase();
+    const user = {username: message.member.displayName, joinDate: message.member.joinedAt}
 
     if (command === 'roles'){
         client.commands.get('roles').execute(message, args);
@@ -58,6 +66,16 @@ client.on('message', message =>{
     } else if(command === 'directmessage'){
         client.commands.get('directmessage').execute(message, args);
     }
+
+    con.connect(function(err) {
+        if (err) throw err;
+        console.log("connected!");
+        con.query("INSERT INTO Users SET ?", user, (err, res) => {
+            if(err) throw err;
+            console.log('Last user inserted');
+        })
+    })
+    con.end();
 });
 
 client.on('message', message =>{
@@ -87,4 +105,5 @@ client.on('message', message =>{
     }
 });
 
-client.login(process.env.token)
+//client.login(process.env.token)
+client.login('NzY4OTU3MzIzMzAwNDM4MDM3.X5IBUA.90kNWndqJJYIL-uGcdofvVQfYX8')
