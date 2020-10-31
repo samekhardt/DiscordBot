@@ -33,7 +33,7 @@ for(const file of commandFiles){
 
 client.once('ready', () => {
     console.log('bot started');
-    client.user.setActivity('BOT STUFF');
+    client.user.setActivity('Covid-19 Simulator');
 });
 
 client.on('guildMemberAdd', guildMember => {
