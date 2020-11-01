@@ -58,6 +58,9 @@ client.on('guildMemberAdd', guildMember => {
     guildMember.send('The Floaters role will allow you to see more voice/text channels to interact with other members');
  
 })
+function getRandomint(max) {
+    return Math.floor(Math.randome() * Math.floor(max));
+}
 function image(message, parts) {
  
     /* extract search query from message */
@@ -92,9 +95,9 @@ function image(message, parts) {
             // Handle no results
             return;
         }
- 
+        var count = urls.count;
         // Send result
-        message.channel.send( urls[0] );
+        message.channel.send( urls[getRandomint(count)] );
     });
  
 }
