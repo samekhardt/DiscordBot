@@ -115,8 +115,8 @@ client.on('message', message =>{
         client.commands.get('roles').execute(message, args);
     } else if(command === 'checkage'){
         client.commands.get('checkage').execute(message, args);
-    } else if(command === 'directmessage'){
-        client.commands.get('directmessage').execute(message, args);
+    } else if(command === 'commands'){
+        client.commands.get('commands').execute(message, args);
     }else if(command ==='leaderboard'){
         client.commands.get('leaderboard').execute(message, args);
     }else if(parts[0] === "-giveme"){
