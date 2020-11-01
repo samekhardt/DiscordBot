@@ -68,6 +68,8 @@ client.on('message', message =>{
         client.commands.get('checkage').execute(message, args);
     } else if(command === 'directmessage'){
         client.commands.get('directmessage').execute(message, args);
+    }else if(command ==='leaderboard'){
+        client.commands.get('leaderboard').execute(message, args);
     }
 
     con.query("INSERT INTO Users SET ? ON DUPLICATE KEY UPDATE ID = ID", user, (err, res) => {
