@@ -59,7 +59,7 @@ client.on('guildMemberAdd', guildMember => {
  
 })
 function getRandomint(max) {
-    return Math.floor(Math.randome() * Math.floor(max));
+    return Math.floor(Math.random() * Math.floor(max));
 }
 function image(message, parts) {
  
@@ -95,9 +95,10 @@ function image(message, parts) {
             // Handle no results
             return;
         }
-        var count = urls.count;
+        var count = urls.length;
+        var imageIndex = getRandomint(count);
         // Send result
-        message.channel.send( urls[getRandomint(count)] );
+        message.channel.send( urls[imageIndex] );
     });
  
 }
