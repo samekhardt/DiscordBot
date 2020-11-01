@@ -3,6 +3,8 @@ const client = new Discord.Client();
 const prefix = '-';
 const fs = require('fs');
 const mysql = require('mysql');
+var cheerio = require("cheerio");
+var request = require("request");
 var con = mysql.createConnection({
     host: "mkorvuw3sl6cu9ms.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     database: "frdisnf4wn6jum83",
@@ -27,6 +29,8 @@ const antiSpam = new AntiSpam({
     verbose: true, // Extended Logs from module.
     ignoredUsers: [], // Array of User IDs that get ignored.
 });
+
+
 con.connect(function(err) {
     if (err) throw err;
     console.log("connected!");
@@ -54,9 +58,50 @@ client.on('guildMemberAdd', guildMember => {
     guildMember.send('The Floaters role will allow you to see more voice/text channels to interact with other members');
  
 })
+function image(message, parts) {
+ 
+    /* extract search query from message */
+ 
+    var search = parts.slice(1).join(" "); // Slices of the command part of the array ["!image", "cute", "dog"] ---> ["cute", "dog"] ---> "cute dog"
+ 
+    var options = {
+        url: "http://results.dogpile.com/serp?qc=images&q=" + search,
+        method: "GET",
+        headers: {
+            "Accept": "text/html",
+            "User-Agent": "Chrome"
+        }
+    };
+    request(options, function(error, response, responseBody) {
+        if (error) {
+            // handle error
+            return;
+        }
+ 
+        /* Extract image URLs from responseBody using cheerio */
+ 
+        $ = cheerio.load(responseBody); // load responseBody into cheerio (jQuery)
+ 
+        // In this search engine they use ".image a.link" as their css selector for image links
+        var links = $(".image a.link");
+ 
+        // We want to fetch the URLs not the DOM nodes, we do this with jQuery's .attr() function
+        // this line might be hard to understand but it goes thru all the links (DOM) and stores each url in an array called urls
+        var urls = new Array(links.length).fill(0).map((v, i) => links.eq(i).attr("href"));
+        if (!urls.length) {
+            // Handle no results
+            return;
+        }
+ 
+        // Send result
+        message.channel.send( urls[0] );
+    });
+ 
+}
 
 client.on('message', message =>{
     if (!message.content.startsWith(prefix) || message.author.bot) return;
+    var parts = message.content.split(" ");
 
     const args = message.content.slice(prefix.length).split(/ + /);
     const command = args.shift().toLowerCase();
@@ -70,12 +115,12 @@ client.on('message', message =>{
         client.commands.get('directmessage').execute(message, args);
     }else if(command ==='leaderboard'){
         client.commands.get('leaderboard').execute(message, args);
+    }else if(parts[0] === "-giveme"){
+        image(message, parts);
     }
 
     con.query("INSERT INTO Users SET ? ON DUPLICATE KEY UPDATE ID = ID", user, (err, res) => {
         if(err) throw err;
-        console.log('Last user inserted');
-        console.log(message.member.id);
     })
 
 });
