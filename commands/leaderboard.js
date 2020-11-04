@@ -19,13 +19,9 @@ module.exports = {
             var resultArray = Object.values(JSON.parse(JSON.stringify(result)));
             resultArray.forEach(function(v){
                 var date = new Date(v.JoinDate);
-                console.log(date);
                 var years = date.getFullYear();
-                console.log(years);
                 var months = date.getMonth() + 1;
-                console.log(months);
                 var days = date.getDate();
-                console.log(days);
                 var joinDate = (months + "/" + days + "/" + years);
                 usernameArray.push(v.Username + " " + joinDate);
             });

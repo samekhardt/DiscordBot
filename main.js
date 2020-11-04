@@ -48,6 +48,15 @@ for(const file of commandFiles){
 client.once('ready', () => {
     console.log('bot started');
     client.user.setActivity('Covid-19 Simulator');
+    client.guilds.cache.forEach(guild => {
+        guild.members.cache.forEach(member => {
+            if (member.user.bot) return;
+            const user = {ID: member.id, Username: member.displayName, JoinDate: member.joinedAt}
+            con.query("INSERT INTO Users SET ? ON DUPLICATE KEY UPDATE ID = ID", user, (err, res) => {
+                if(err) throw err;
+            })
+        })
+    })
 });
 
 client.on('guildMemberAdd', guildMember => {
@@ -58,6 +67,7 @@ client.on('guildMemberAdd', guildMember => {
     guildMember.send('The Floaters role will allow you to see more voice/text channels to interact with other members');
  
 })
+
 function getRandomint(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
@@ -109,7 +119,7 @@ client.on('message', message =>{
 
     const args = message.content.slice(prefix.length).split(/ + /);
     const command = args.shift().toLowerCase();
-    const user = {ID: message.member.id, Username: message.member.displayName, JoinDate: message.member.joinedAt}
+    
 
     if (command === 'roles'){
         client.commands.get('roles').execute(message, args);
@@ -122,11 +132,6 @@ client.on('message', message =>{
     }else if(parts[0] === "-giveme"){
         image(message, parts);
     }
-
-    con.query("INSERT INTO Users SET ? ON DUPLICATE KEY UPDATE ID = ID", user, (err, res) => {
-        if(err) throw err;
-    })
-
 });
 
 client.on('message', message =>{
@@ -156,4 +161,5 @@ client.on('message', message =>{
     }
 });
 
-client.login(process.env.token)
+//client.login(process.env.token)
+client.login("NzY4OTU3MzIzMzAwNDM4MDM3.X5IBUA.WvT-Pt0GSBCZwc-d9sEKwQtCc-w")
