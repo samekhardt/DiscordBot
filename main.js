@@ -65,6 +65,10 @@ client.on('guildMemberAdd', guildMember => {
     guildMember.send('Thank you for joining the Game Station server, you have been given the Newcomer Role');
     guildMember.send('Once you have been in the server for 7 days you will receive the Floaters Role');
     guildMember.send('The Floaters role will allow you to see more voice/text channels to interact with other members');
+    const user = {ID: guildMember.id, Username: guildMember.displayName, JoinDate: guildMember.joinedAt}
+    con.query("INSERT INTO Users SET ? ON DUPLICATE KEY UPDATE ID = ID", user, (err, res) => {
+        if(err) throw err;
+    })
  
 })
 
