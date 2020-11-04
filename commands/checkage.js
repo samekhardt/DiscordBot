@@ -4,16 +4,16 @@ module.exports = {
     execute(message, args){
         let member = message.member, user = member.user;
 
-        var joinDate = new Date(member.joinedAt);
-        var today = new Date();
+        let joinDate = new Date(member.joinedAt);
+        let today = new Date();
 
-        var age = new Date(today - joinDate);
-        var years = age.getUTCFullYear() - 1970 + " years";
-        var yeardiff = age.getUTCFullYear() - 1970;
-        var months = age.getUTCMonth() + " months";
-        var monthdiff = age.getUTCMonth();
-        var days = age.getUTCDate() - 1 + " days";
-        var daydiff = age.getUTCDate() -1;
+        let age = new Date(today - joinDate);
+        let years = age.getUTCFullYear() - 1970 + " years";
+        let yeardiff = age.getUTCFullYear() - 1970;
+        let months = age.getUTCMonth() + " months";
+        let monthdiff = age.getUTCMonth();
+        let days = age.getUTCDate() - 1 + " days";
+        let daydiff = age.getUTCDate() -1;
 
         if(daydiff > 7 || monthdiff > 0 || yeardiff > 0){
             if (message.member.roles.cache.has('746044942916386879')){

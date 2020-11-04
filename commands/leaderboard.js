@@ -5,24 +5,24 @@ module.exports = {
     description: "Shows members of the server in order from oldest to youngest",
     execute(message, args){
         const mysql = require('mysql');
-        var con = mysql.createConnection({
+        let con = mysql.createConnection({
             host: "mkorvuw3sl6cu9ms.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
             database: "frdisnf4wn6jum83",
             user: "ek0a1l8kakjo4p9y",
             password: "v54qciosxhn3tsys"
         })
-        var usernameArray = [];
+        let usernameArray = [];
 
             
         con.query("SELECT ID, Username, JoinDate FROM Users order by JoinDate ASC", function (err, result, fields) {
             if(err) throw err;
-            var resultArray = Object.values(JSON.parse(JSON.stringify(result)));
+            let resultArray = Object.values(JSON.parse(JSON.stringify(result)));
             resultArray.forEach(function(v){
-                var date = new Date(v.JoinDate);
-                var years = date.getFullYear();
-                var months = date.getMonth() + 1;
-                var days = date.getDate();
-                var joinDate = (months + "/" + days + "/" + years);
+                let date = new Date(v.JoinDate);
+                let years = date.getFullYear();
+                let months = date.getMonth() + 1;
+                let days = date.getDate();
+                let joinDate = (months + "/" + days + "/" + years);
                 usernameArray.push(v.Username + " " + joinDate);
             });
             

@@ -3,9 +3,9 @@ const client = new Discord.Client();
 const prefix = '-';
 const fs = require('fs');
 const mysql = require('mysql');
-var cheerio = require("cheerio");
-var request = require("request");
-var con = mysql.createConnection({
+const cheerio = require("cheerio");
+const request = require("request");
+const con = mysql.createConnection({
     host: "mkorvuw3sl6cu9ms.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     database: "frdisnf4wn6jum83",
     user: "ek0a1l8kakjo4p9y",
@@ -79,9 +79,9 @@ function image(message, parts) {
  
     /* extract search query from message */
  
-    var search = parts.slice(1).join(" "); // Slices of the command part of the array ["!image", "cute", "dog"] ---> ["cute", "dog"] ---> "cute dog"
+    let search = parts.slice(1).join(" "); // Slices of the command part of the array ["!image", "cute", "dog"] ---> ["cute", "dog"] ---> "cute dog"
  
-    var options = {
+    let options = {
         url: "http://results.dogpile.com/serp?qc=images&q=" + search,
         method: "GET",
         headers: {
@@ -100,17 +100,17 @@ function image(message, parts) {
         $ = cheerio.load(responseBody); // load responseBody into cheerio (jQuery)
  
         // In this search engine they use ".image a.link" as their css selector for image links
-        var links = $(".image a.link");
+        let links = $(".image a.link");
  
         // We want to fetch the URLs not the DOM nodes, we do this with jQuery's .attr() function
         // this line might be hard to understand but it goes thru all the links (DOM) and stores each url in an array called urls
-        var urls = new Array(links.length).fill(0).map((v, i) => links.eq(i).attr("href"));
+        let urls = new Array(links.length).fill(0).map((v, i) => links.eq(i).attr("href"));
         if (!urls.length) {
             // Handle no results
             return;
         }
-        var count = urls.length;
-        var imageIndex = getRandomint(count);
+        let count = urls.length;
+        let imageIndex = getRandomint(count);
         // Send result
         message.channel.send( urls[imageIndex] );
     });
@@ -119,7 +119,7 @@ function image(message, parts) {
 
 client.on('message', message =>{
     if (!message.content.startsWith(prefix) || message.author.bot) return;
-    var parts = message.content.split(" ");
+    let parts = message.content.split(" ");
 
     const args = message.content.slice(prefix.length).split(/ + /);
     const command = args.shift().toLowerCase();
@@ -141,13 +141,13 @@ client.on('message', message =>{
 client.on('message', message =>{
     if (message.author.bot) return;
     let member = message.member, user = member.user;
-    var joinDate = new Date(member.joinedAt);
-    var today = new Date();
+    let joinDate = new Date(member.joinedAt);
+    let today = new Date();
 
-    var age = new Date(today - joinDate);
-    var yeardiff = age.getUTCFullYear() - 1970;
-    var monthdiff = age.getUTCMonth();
-    var daydiff = age.getUTCDate() -1;
+    let age = new Date(today - joinDate);
+    let yeardiff = age.getUTCFullYear() - 1970;
+    let monthdiff = age.getUTCMonth();
+    let daydiff = age.getUTCDate() -1;
 
     if(daydiff > 7 || monthdiff > 0 || yeardiff > 0){
         if(message.member.roles.cache.has('746044942916386879') || message.member.roles.cache.has('716830388793769985') || message.member.roles.cache.has('752979280031514706')){
