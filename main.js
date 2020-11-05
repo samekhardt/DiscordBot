@@ -1,4 +1,6 @@
 const Discord = require('discord.js');
+client.commands = new Discord.Collection();
+const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 const client = new Discord.Client();
 const prefix = '-';
 const fs = require('fs');
@@ -30,21 +32,18 @@ const antiSpam = new AntiSpam({
     ignoredUsers: [], // Array of User IDs that get ignored.
 });
 
-
+//Connection to DB
 con.connect(function(err) {
     if (err) throw err;
     console.log("connected!");
 })
-client.commands = new Discord.Collection();
-
-const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 
 for(const file of commandFiles){
     const command = require(`./commands/${file}`);
 
     client.commands.set(command.name, command);
 }
-
+//Once bot is online complete below code
 client.once('ready', () => {
     console.log('bot started');
     client.user.setActivity('Covid-19 Simulator');
@@ -58,7 +57,7 @@ client.once('ready', () => {
         })
     })
 });
-
+//When new member joins guild, apply newcomer role and add to db
 client.on('guildMemberAdd', guildMember => {
     guildMember.roles.set(['745686987805163562']).then(console.log).catch(console.error);
     console.log('I have reached this part');
@@ -71,52 +70,7 @@ client.on('guildMemberAdd', guildMember => {
     })
  
 })
-
-function getRandomint(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
-function image(message, parts) {
- 
-    /* extract search query from message */
- 
-    let search = parts.slice(1).join(" "); // Slices of the command part of the array ["!image", "cute", "dog"] ---> ["cute", "dog"] ---> "cute dog"
- 
-    let options = {
-        url: "http://results.dogpile.com/serp?qc=images&q=" + search,
-        method: "GET",
-        headers: {
-            "Accept": "text/html",
-            "User-Agent": "Chrome"
-        }
-    };
-    request(options, function(error, response, responseBody) {
-        if (error) {
-            // handle error
-            return;
-        }
- 
-        /* Extract image URLs from responseBody using cheerio */
- 
-        $ = cheerio.load(responseBody); // load responseBody into cheerio (jQuery)
- 
-        // In this search engine they use ".image a.link" as their css selector for image links
-        let links = $(".image a.link");
- 
-        // We want to fetch the URLs not the DOM nodes, we do this with jQuery's .attr() function
-        // this line might be hard to understand but it goes thru all the links (DOM) and stores each url in an array called urls
-        let urls = new Array(links.length).fill(0).map((v, i) => links.eq(i).attr("href"));
-        if (!urls.length) {
-            // Handle no results
-            return;
-        }
-        let count = urls.length;
-        let imageIndex = getRandomint(count);
-        // Send result
-        message.channel.send( urls[imageIndex] );
-    });
- 
-}
-
+//on message check for commands
 client.on('message', message =>{
     if (!message.content.startsWith(prefix) || message.author.bot) return;
     let parts = message.content.split(" ");
@@ -137,7 +91,7 @@ client.on('message', message =>{
         image(message, parts);
     }
 });
-
+//check message then grab author info > check for age>7 if true; apply Floater role; Ignores mudea commands and also checks for spam messages
 client.on('message', message =>{
     if (message.author.bot) return;
     let member = message.member, user = member.user;
@@ -165,4 +119,5 @@ client.on('message', message =>{
     }
 });
 
+//client login, token applied in heroku
 client.login(process.env.token)
