@@ -1,12 +1,10 @@
 const Discord = require('discord.js');
-client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 const client = new Discord.Client();
+client.commands = new Discord.Collection();
 const prefix = '-';
 const fs = require('fs');
+const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 const mysql = require('mysql');
-const cheerio = require("cheerio");
-const request = require("request");
 const con = mysql.createConnection({
     host: "mkorvuw3sl6cu9ms.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     database: "frdisnf4wn6jum83",
@@ -74,7 +72,6 @@ client.on('guildMemberAdd', guildMember => {
 client.on('message', message =>{
     if (!message.content.startsWith(prefix) || message.author.bot) return;
     let parts = message.content.split(" ");
-
     const args = message.content.slice(prefix.length).split(/ + /);
     const command = args.shift().toLowerCase();
     
@@ -88,7 +85,7 @@ client.on('message', message =>{
     }else if(command ==='leaderboard'){
         client.commands.get('leaderboard').execute(message, args);
     }else if(parts[0] === "-giveme"){
-        image(message, parts);
+        client.commands.get('giveme').execute(message,args);
     }
 });
 //check message then grab author info > check for age>7 if true; apply Floater role; Ignores mudea commands and also checks for spam messages
