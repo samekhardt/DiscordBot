@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const Discord = require('discord.js');
 
 module.exports = {
     name: 'leaderboard',
@@ -12,7 +12,7 @@ module.exports = {
             password: "v54qciosxhn3tsys"
         })
         let usernameArray = [];
-
+        let dateArray = [];
             
         con.query("SELECT ID, Username, JoinDate FROM Users order by JoinDate ASC", function (err, result, fields) {
             if(err) throw err;
@@ -23,13 +23,18 @@ module.exports = {
                 let months = date.getMonth() + 1;
                 let days = date.getDate();
                 let joinDate = (months + "/" + days + "/" + years);
-                usernameArray.push(v.Username + " " + joinDate);
+                usernameArray.push(v.Username);
+                dateArray.push(joinDate);
+
             });
             
-            const embed = new MessageEmbed()
+            const embed = new Discord.MessageEmbed()
             .setColor("#ff0000")
-            .setTitle("Leaderboard")
-            .addFields({name: "Users by age", value: usernameArray})
+            .setTitle("Users by Age")
+            .addFields(
+                {name: 'Username', value: usernameArray, inline: true},
+                {name: 'Join Date', value: dateArray, inline: true}
+            )
             message.channel.send(embed);
         })
     }
