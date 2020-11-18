@@ -117,5 +117,4 @@ client.on('message', message =>{
 });
 
 //client login, token applied in heroku
-//client.login(process.env.token)
-client.login('NzY4OTU3MzIzMzAwNDM4MDM3.X5IBUA.wACp5SGjDrMtDJ9e-uKics9lb3A')
+client.login(process.env.token)
