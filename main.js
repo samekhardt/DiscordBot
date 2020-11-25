@@ -57,11 +57,6 @@ client.once('ready', () => {
 });
 //When new member joins guild, apply newcomer role and add to db
 client.on('guildMemberAdd', guildMember => {
-    guildMember.roles.set(['745686987805163562']).then(console.log).catch(console.error);
-    console.log('I have reached this part');
-    guildMember.send('Thank you for joining the Game Station server, you have been given the Newcomer Role');
-    guildMember.send('Once you have been in the server for 7 days you will receive the Floaters Role');
-    guildMember.send('The Floaters role will allow you to see more voice/text channels to interact with other members');
     const user = {ID: guildMember.id, Username: guildMember.displayName, JoinDate: guildMember.joinedAt}
     con.query("INSERT INTO Users SET ? ON DUPLICATE KEY UPDATE ID = ID", user, (err, res) => {
         if(err) throw err;
@@ -91,23 +86,6 @@ client.on('message', message =>{
 //check message then grab author info > check for age>7 if true; apply Floater role; Ignores mudea commands and also checks for spam messages
 client.on('message', message =>{
     if (message.author.bot) return;
-    let member = message.member, user = member.user;
-    let joinDate = new Date(member.joinedAt);
-    let today = new Date();
-
-    let age = new Date(today - joinDate);
-    let yeardiff = age.getUTCFullYear() - 1970;
-    let monthdiff = age.getUTCMonth();
-    let daydiff = age.getUTCDate() -1;
-
-    if(daydiff > 7 || monthdiff > 0 || yeardiff > 0){
-        if(message.member.roles.cache.has('746044942916386879') || message.member.roles.cache.has('716830388793769985') || message.member.roles.cache.has('752979280031514706')){
-        } else{
-            message.member.roles.add('746044942916386879').catch(console.error);
-        }
-    } else {
-    }
-
     if (message.content.startsWith(mudeaPrefix))
     {
     }
