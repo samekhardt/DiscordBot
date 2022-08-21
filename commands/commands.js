@@ -1,6 +1,6 @@
 module.exports = {
     name: 'commands',
-    description: "Sends direct message to user",
+    description: "Sends direct message to user to show commands",
     execute(message, args){
        message.author.send("Currently we have 3 commands:");
        message.author.send("-checkage , this will show how long you've been in this server");
